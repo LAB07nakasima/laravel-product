@@ -26,8 +26,8 @@
                                 <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">カテゴリー１</span>
                                 <!-- 🔽 詳細画面へのリンク -->
                                 <a href="{{ route('post.show', $post->id) }}"></a>
-                                <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">{{ $post->title }}</h2>
-                                <p class="leading-relaxed mb-8">内容の文章
+                                <h2 class="sm:text-3xl text-2xl title-font font-bold text-gray-900 mt-4 mb-4 text-center">{{ $post->title }}</h2>
+                                <p class="leading-relaxed mb-8 text-center">内容:
                                     {{ $post->contents }}
                                 </p>
                                 <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-auto w-full">
