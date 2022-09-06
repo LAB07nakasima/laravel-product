@@ -9,9 +9,20 @@ RUN apt-get update && \
   apt-get -y install --no-install-recommends git unzip libzip-dev libicu-dev libonig-dev && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
-  docker-php-ext-install intl pdo_mysql zip bcmath
+  docker-php-ext-install intl pdo_mysql zip bcmath 
+  
+RUN apt-get update && apt-get install -y \
+    zip \
+    unzip \
+    curl 
+
+# nodeインストール
+RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+RUN apt-get install -y nodejs
 
 COPY ./php.ini /usr/local/etc/php/php.ini
+
+
 
 WORKDIR /data
 

@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
+
 
 class User extends Authenticatable
 {
-    // use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
     //use HasFactoryでHasFactoryクラスの関数を使用することを言ってる
     protected $table = 'users';
 
@@ -23,4 +25,12 @@ class User extends Authenticatable
         'password',
         // 'remember_token',
     ];
+
+    // ブログを取得 １対多
+    public function userPosts()
+    {
+        // 外部キーを引数で渡す
+        return $this->hasMany(Post::class);
+    }
+
 }

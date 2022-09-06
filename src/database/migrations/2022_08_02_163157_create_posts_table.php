@@ -25,6 +25,15 @@ return new class extends Migration
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });
+
+        Schema::table('posts', function (Blueprint $table){
+            $table->foreign('user_id')
+            ->after('id')
+            ->nullable()
+            ->constrained('users')
+            ->cascadeOnDelete();
+
+        });
     }
 
     /**

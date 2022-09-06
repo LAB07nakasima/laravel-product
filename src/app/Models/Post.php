@@ -12,6 +12,22 @@ class Post extends Model
     protected $table = 'posts';
 
     protected $fillable = [
-        'title', 'contents', 'user_id'
+        'title',
+        'contents',
+        'user_id'
     ];
+
+    public static function getAllOrderByUpdated_at()
+    {
+        // selfはpostモデルのこと
+        //orderBy(ソートする要素名, 降順(昇順))
+        //get()で実行
+        return self::orderBy('updated_at', 'desc')->get();
+    }
+
+    public function user()
+    {
+        // １対多の1と繋げてる
+        return $this->belongsTo(User::class);
+    }
 }

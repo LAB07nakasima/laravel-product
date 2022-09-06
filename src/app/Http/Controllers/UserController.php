@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -13,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('mypage.index');
     }
 
     /**
@@ -23,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('mypage.create');
     }
 
     /**
@@ -34,7 +38,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //バリデーション
+        $validator = Validator::make($request->all(),
+        [
+            'name' => 'required|string|max:20',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'Password::min(8)|letters()|mixedCase()|numbers()|symbols()|uncompromised()' ,
+            'age' => 'nullable',
+            'gender' => 'nullable',
+            'address' => 'required|string|max:200|unique:users',
+            'thanks_point' => 'nullable|integer'
+        ]);
+        // バリデーションエラー
+        if ($validator->fails()){
+            return redirect()
+            ->route('user.create')
+            ->withInput()
+            ->withErrors($validator);
+        };
+
+
     }
 
     /**
@@ -81,4 +104,18 @@ class UserController extends Controller
     {
         //
     }
+
+
+  public function myposts()
+  {
+    // Userモデルに定義したリレーションを使用してデータを取得する．
+    $myposts = User::query()
+      ->find(Auth::user()->id)
+      ->userPosts()
+      ->orderBy('created_at','desc')
+      ->get();
+
+    // dd($myposts);
+    return view('mypage.index', compact('myposts'));
+  }
 }

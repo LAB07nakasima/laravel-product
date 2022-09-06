@@ -15,15 +15,15 @@
             <form class="mb-6" action="{{ route('post.store') }}" method="POST">
               @csrf
               <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="post">Post</label>
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="title">Title</label>
                 <input class="border py-2 px-3 text-grey-darkest" type="text" name="title" id="title">
               </div>
               <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="description">Description</label>
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="contents">Contents</label>
                 <input class="border py-2 px-3 text-grey-darkest" type="text" name="contents" id="contents">
               </div>
               <button type="submit" class="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
-                Create
+                投稿
               </button>
             </form>
           </div>
