@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
+Route::group(['middleware' => 'auth'], function (){
+    Route::resource('post', PostController::class);
 
-Route::resource('post', PostController::class);
+    Route::post('post/{post}/favorites', [FavoriteController::class, 'store'])->name('favorites');
+    Route::post('post/{post}/unfavorites', [FavoriteController::class, 'destroy'])->name('unfavorites');
+
+});
+
 
 Route::resource('mypage', UserController::class);
 

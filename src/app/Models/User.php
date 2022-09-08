@@ -33,4 +33,10 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    // いいね機能
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class)->withTimestamps();
+    }
+
 }

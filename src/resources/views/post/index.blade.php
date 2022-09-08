@@ -6,12 +6,6 @@
       </h2>
     </x-slot>
 
-        {{-- <div class=" md:flex justify-center mb-16">
-            <div class="text-center border border-red-300 py-4 flex-grow">aaaaaa</div>
-            <div class="text-center border border-red-300 py-4 flex-grow">aaaaaa</div>
-            <div class="text-center border border-red-300 py-4 flex-grow">aaaaaa</div>
-        </div> --}}
-
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -38,10 +32,38 @@
                                         </svg>
                                     </a>
                                     <span class="text-gray-400 mr-3 inline-flex items-center ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                        <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+
+                                    {{-- いいね機能 --}}
+                                    <!-- favorite 状態で条件分岐 -->
+                                    @if($post->users()->where('user_id', Auth::id())->exists())
+                                    <!-- unfavorite ボタン -->
+                                    <form action="{{ route('unfavorites',$post) }}" method="POST" class="text-left">
+                                    @csrf
+                                    <button type="submit" class="flex mr-2 ml-2 text-sm hover:bg-gray-200 hover:shadow-none text-red py-1 px-2 focus:outline-none focus:shadow-outline">
+                                        <svg class="h-6 w-6 text-red-500" fill="red" viewBox="0 0 24 24" stroke="red">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                        {{-- {{ $post->users()->count() }} --}}
+                                    </button>
+                                    </form>
+                                    @else
+                                    <!-- favorite ボタン -->
+                                    <form action="{{ route('favorites',$post) }}" method="POST" class="text-left">
+                                    @csrf
+                                    <button type="submit" class="flex ml-1 text-sm hover:bg-gray-200 hover:shadow-none text-black py-1 px-2 focus:outline-none focus:shadow-outline">
+                                        <svg class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="black">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                        {{-- {{ $post->users()->count() }} --}}
+                                    </button>
+                                    </form>
+                                    @endif
+
+                                        {{-- <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                             <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>いいね数1.2K
+                                        </svg> --}}
+                                        いいね数{{ $post->users()->count() }}
                                     </span>
                                     <span class="text-gray-400 inline-flex items-center leading-none text-sm">
                                         <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -59,6 +81,32 @@
                                             </svg>
                                         </button>
                                     </form>
+
+                                    <!-- favorite 状態で条件分岐 -->
+                                    {{-- @if($post->users()->where('user_id', Auth::id())->exists()) --}}
+                                    <!-- unfavorite ボタン -->
+                                    <form action="{{ route('unfavorites',$post) }}" method="POST" class="text-left">
+                                    @csrf
+                                    <button type="submit" class="flex mr-2 ml-2 text-sm hover:bg-gray-200 hover:shadow-none text-red py-1 px-2 focus:outline-none focus:shadow-outline">
+                                        <svg class="h-6 w-6 text-red-500" fill="red" viewBox="0 0 24 24" stroke="red">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                        {{-- {{ $post->users()->count() }} --}}
+                                    </button>
+                                    </form>
+                                    @else
+                                    <!-- favorite ボタン -->
+                                    <form action="{{ route('favorites',$post) }}" method="POST" class="text-left">
+                                    @csrf
+                                    <button type="submit" class="flex mr-2 ml-2 text-sm hover:bg-gray-200 hover:shadow-none text-black py-1 px-2 focus:outline-none focus:shadow-outline">
+                                        <svg class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="black">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                        {{-- {{ $post->users()->count() }} --}}
+                                    </button>
+                                    </form>
+                                    @endif
+
                                     <!-- 🔽 削除ボタン -->
                                     <form action="{{ route('post.destroy',$post->id) }}" method="POST" class="text-left">
                                         @method('delete')
