@@ -13,27 +13,26 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id')->constrained();
-            $table->string('title', 100)->comment('タイトル');
-            $table->string('contents', 255)->comment('内容');
+        Schema::create('comments', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('comment');
             $table->timestamps();
 
             // 外部キーの設定
+            $table->bigInteger('post_id')->unsigned();
+            $table->foreign('post_id')
+                ->reference('id')
+                ->on('posts')
+                // ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            // 外部キーの設定
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onUpdate('cascade')
+                // ->onUpdate('cascade')
                 ->onDelete('cascade');
-        });
-
-        Schema::table('posts', function (Blueprint $table){
-            $table->foreign('user_id')
-            ->after('id')
-            ->nullable()
-            ->constrained('users')
-            ->cascadeOnDelete();
 
         });
     }
@@ -45,6 +44,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('comments');
     }
 };

@@ -85,7 +85,7 @@
                                     <!-- favorite 状態で条件分岐 -->
                                     {{-- @if($post->users()->where('user_id', Auth::id())->exists()) --}}
                                     <!-- unfavorite ボタン -->
-                                    <form action="{{ route('unfavorites',$post) }}" method="POST" class="text-left">
+                                    {{-- <form action="{{ route('unfavorites',$post) }}" method="POST" class="text-left">
                                     @csrf
                                     <button type="submit" class="flex mr-2 ml-2 text-sm hover:bg-gray-200 hover:shadow-none text-red py-1 px-2 focus:outline-none focus:shadow-outline">
                                         <svg class="h-6 w-6 text-red-500" fill="red" viewBox="0 0 24 24" stroke="red">
@@ -117,7 +117,7 @@
                                             </svg>
                                         </button>
                                     </form>
-                                    @endif
+
                                 </div>
 
                                 <a class="inline-flex items-center">
