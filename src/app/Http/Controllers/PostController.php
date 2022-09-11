@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,14 @@ class PostController extends Controller
     {
         // IDを指定して１件のデータを取得 postという名前でshow.bladeに渡す
         $post = Post::find($id);
-        return view('post.show', compact('post'));
+
+        // commentのデータも必要なので取ってくる
+        // 取ってきた$idとpost_idカラムで一致したレコードを取得
+        $comments = Comment::where('post_id' , $id)
+            ->get();
+
+        // dd($comments);
+        return view('post.show', compact('post', 'id', 'comments'));
     }
 
     /**

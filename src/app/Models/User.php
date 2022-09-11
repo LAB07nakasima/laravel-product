@@ -39,4 +39,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Post::class)->withTimestamps();
     }
 
+    // コメント
+    public function comments()
+    {
+        return $this->hasMany(User::class);
+    }
+
 }

@@ -19,8 +19,8 @@
                             <div class="border p-2">
                                 <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">カテゴリー１</span>
                                 <!-- 🔽 詳細画面へのリンク -->
-                                <a href="{{ route('post.show', $post->id) }}"></a>
                                 <h2 class="sm:text-3xl text-2xl title-font font-bold text-gray-900 mt-4 mb-4 text-center">{{ $post->title }}</h2>
+                                {{-- <a href="{{ route('post.show', $post->id) }}" class="leading-relaxed mb-8 text-center mx-auto">内容:{{ $post->contents }}</a> --}}
                                 <p class="leading-relaxed mb-8 text-center">内容:
                                     {{ $post->contents }}
                                 </p>
@@ -66,9 +66,14 @@
                                         いいね数{{ $post->users()->count() }}
                                     </span>
                                     <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                        <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                            <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                                        </svg>コメント数
+                                    <form action="{{ route('comment.show', ['post_id' => $post->id]) }}" method="GET" class="text-left">
+                                        <button type="submit" class="flex ml-1 text-sm hover:bg-gray-200 hover:shadow-none text-black py-1 px-2 focus:outline-none focus:shadow-outline">
+                                            <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                    コメント数
                                     </span>
                                     <!-- 🔽 条件分岐でログインしているユーザが投稿したtweetのみ編集ボタンと削除ボタンが表示される -->
                                     @if ($post->user_id === Auth::user()->id)
@@ -81,19 +86,6 @@
                                             </svg>
                                         </button>
                                     </form>
-
-                                    <!-- favorite 状態で条件分岐 -->
-                                    {{-- @if($post->users()->where('user_id', Auth::id())->exists()) --}}
-                                    <!-- unfavorite ボタン -->
-                                    {{-- <form action="{{ route('unfavorites',$post) }}" method="POST" class="text-left">
-                                    @csrf
-                                    <button type="submit" class="flex mr-2 ml-2 text-sm hover:bg-gray-200 hover:shadow-none text-red py-1 px-2 focus:outline-none focus:shadow-outline">
-                                        <svg class="h-6 w-6 text-red-500" fill="red" viewBox="0 0 24 24" stroke="red">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                        </svg>
-                                        {{-- {{ $post->users()->count() }} --}}
-                                    </button>
-                                    </form>
                                     @else
                                     <!-- favorite ボタン -->
                                     <form action="{{ route('favorites',$post) }}" method="POST" class="text-left">
@@ -102,12 +94,13 @@
                                         <svg class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="black">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                         </svg>
-                                        {{-- {{ $post->users()->count() }} --}}
+
                                     </button>
                                     </form>
                                     @endif
 
                                     <!-- 🔽 削除ボタン -->
+                                    @if ($post->user_id === Auth::user()->id)
                                     <form action="{{ route('post.destroy',$post->id) }}" method="POST" class="text-left">
                                         @method('delete')
                                         @csrf
@@ -117,6 +110,7 @@
                                             </svg>
                                         </button>
                                     </form>
+                                    @endif
 
                                 </div>
 
