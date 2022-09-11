@@ -1,0 +1,50 @@
+name: Laravel
+
+on:
+  push:
+  pull_request:
+
+env:
+  DB_USERNAME: product-user
+  DB_PASSWORD: secret
+  MAIL_FROM_ADDRESS: hello@example.com
+  
+jobs:
+  phpunit:
+  
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql.test:
+        image: 'mysql/mysql-server:8.0'
+        ports:
+          - 33307:3306
+        
+        env:
+          MYSQL_DATABASE: 'laravel-product-db'
+          MYSQL_USER: ${{ env.DB_USERNAME }}
+          MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
+          MYSQL_ALLOW_EMPTY_PASSWORD:
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+     -uses: actions/checkout@v2
+     -name: SetupPHP
+      uses: shivammathur/setup-php@2
+      with:
+        php-version: '8.0'
+        tools: composer:v2
+     -name: Copy.env
+      run: cp .env.example .env.testing
+     -name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+     -name: Generate key
+      run: php artisan key:generate --env testing
+     -name: Set hostname
+      run: sudo echo "127.0.0.1 mysql.test" | sudo tee -a /etc/hosts
+     -name: Execute tests (Unit and Feature tests) via PHPUnit
+      run: vendor/bin/phpunit
