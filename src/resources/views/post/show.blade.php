@@ -38,9 +38,15 @@
                         </div>
                         {{-- <span>{{ $comment->comment }}</span> --}}
                         @if ($comment->user_id == Auth::id())
-                            <a class="delete-comment" data-remote="true" rel="nofollow" data-method="delete" href="/comment/{{ $comment->id }}">
-                                消去
-                            </a>
+                            <form action="{{ route('comment.destroy', ['comment_id' => $comment->id]) }}" method="POST">
+                                @csrf
+                                {{-- <a class="delete-comment" data-remote="true" rel="nofollow" data-method="delete" href="/comment/{{ $comment->id }}">
+                                    消去
+                                </a> --}}
+                                <button class="submit">削除</button>
+                                <input type="hidden" name="post_id" value="{{ $id }}">
+                            </form>
+
                         @endif
                     </div>
                 @endforeach

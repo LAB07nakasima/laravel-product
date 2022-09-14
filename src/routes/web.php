@@ -18,6 +18,7 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::group(['middleware' => 'auth'], function (){
+    Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
     Route::resource('post', PostController::class);
 
     Route::post('post/{post}/favorites', [FavoriteController::class, 'store'])->name('favorites');
@@ -46,12 +47,9 @@ Route::get('/comment/show/{post_id}', [CommentController::class,'show'])->name('
 
 Route::get('/comment/create', [CommentController::class,'create']);
 Route::post('/comment/store', [CommentController::class,'store'])->name('comment.store');
-Route::get('/comment/{comment_id}', [CommentController::class,'destroy']);
-
-
 
 // コメント削除処理
-Route::get('/comment/{comment_id}', [CommentController::class,'destroy']);
+Route::post('/comment/{comment_id}', [CommentController::class,'destroy'])->name('comment.destroy');
 
 
 Route::get('/dashboard', function () {

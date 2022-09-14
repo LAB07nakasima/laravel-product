@@ -8,6 +8,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -21,7 +22,13 @@ class PostController extends Controller
         // $posts = [];
         $posts = Post::getAllOrderByUpdated_at();
         // dd($posts);
-        return view('post.index',compact('posts'));
+
+        return view('post.index',compact('posts'),
+
+        // ×ペジネーションをつけたい
+        [
+            'posts' => DB::table('posts')->paginate(6)
+        ]);
     }
 
     /**

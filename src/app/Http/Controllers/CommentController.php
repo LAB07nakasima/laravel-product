@@ -44,16 +44,33 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($id);
+        // commentのデータをDBに保存
         $comments = new Comment();
         $comments->comment = $request->comment;
         $comments->post_id = $request->post_id;
         $comments->user_id = Auth::user()->id;
         $comments->save();
 
-        
+        // inputタグ hiddenで渡した値を取得する
+        $post_id = $request->input('post_id');
 
-        // dd($comment);
-        return view('post.show', compact('commens', 'post'));
+        $comments = DB::table('comments')
+            ->select('comments.*', 'users.name')
+            ->join('users','comments.user_id', 'users.id')
+            ->where('post_id', $post_id)
+            ->get()
+            ->toArray();
+
+        // dd($comments);
+
+        //post情報の取得をしてviewに返す
+        $post = Post::where('id', $post_id )
+            ->first();
+        // dd($post);
+
+        return view('post.show', compact('comments', 'post' ))
+            ->with('id', $post_id);
 
         // フォームから送信されてきたデータとユーザーIDをマージし、DBにinsertする
         // $data = $request->merge(['user_id' => Auth::user()->id])->all();
@@ -130,16 +147,26 @@ class CommentController extends Controller
      */
     public function destroy(Request $request, int $comment_id)
     {
+
+        // dd($comment_id);
         $comment = Comment::find($comment_id);
         $comment->delete();
+        // dd($comment);
 
-        $this_post_id = DB::table('comments')
-            ->select('comments.*', 'users.name')
-            ->join('users','comments.user_id', 'users.id')
-            ->where('comment_id', $comment_id)
-            ->get();
-        dd($this_post_id);
+        $post_id = $request->input('post_id');
 
-        return redirect('post.show');
+        // $this_post_id = DB::table('comments')
+        //
+        //     ->select('comments.*', 'users.name')
+        //     ->join('users','comments.user_id', 'users.id')
+        //     ->where('id', $comment_id)
+        //     ->get();
+        // dd($this_post_id);
+
+        // return redirect()->route('post.show')
+        //     ->with('post', $comment_id);
+
+        // URL
+        return redirect("/post/" . $post_id );
     }
 }
