@@ -86,7 +86,7 @@ class PostController extends Controller
 
         // commentのデータも必要なので取ってくる
         // 取ってきた$idとpost_idカラムで一致したレコードを取得
-        $comments = Comment::where('post_id' , $id)
+        $comments = Comment::where('comment_post_id' , $id)
             ->get();
 
         // dd($comments);

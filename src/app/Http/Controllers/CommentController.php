@@ -48,8 +48,8 @@ class CommentController extends Controller
         // commentのデータをDBに保存
         $comments = new Comment();
         $comments->comment = $request->comment;
-        $comments->post_id = $request->post_id;
-        $comments->user_id = Auth::user()->id;
+        $comments->comment_post_id = $request->post_id;
+        $comments->comment_user_id = Auth::user()->id;
         $comments->save();
 
         // inputタグ hiddenで渡した値を取得する
@@ -57,8 +57,8 @@ class CommentController extends Controller
 
         $comments = DB::table('comments')
             ->select('comments.*', 'users.name')
-            ->join('users','comments.user_id', 'users.id')
-            ->where('post_id', $post_id)
+            ->join('users','comments.comment_user_id', 'users.id')
+            ->where('comment_post_id', $post_id)
             ->get()
             ->toArray();
 
@@ -93,8 +93,8 @@ class CommentController extends Controller
         $id = $request->post_id;
         $comments = DB::table('comments')
             ->select('comments.*', 'users.name')
-            ->join('users','comments.user_id', 'users.id')
-            ->where('post_id', $id)
+            ->join('users','comments.comment_user_id', 'users.id')
+            ->where('comment_post_id', $id)
             ->get()
             ->toArray();
 

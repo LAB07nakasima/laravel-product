@@ -13,8 +13,8 @@ class Comment extends Model
 
     protected $fillable = [
         'comment',
-        'post_id',
-        'user_id',
+        'comment_post_id',
+        'comment_user_id',
     ];
 
     public function post()

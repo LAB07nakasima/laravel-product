@@ -18,7 +18,9 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::group(['middleware' => 'auth'], function (){
+    Route::get('post/create',[PostController::class, 'store'])->name('post.create');
     Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
+
     Route::resource('post', PostController::class);
 
     Route::post('post/{post}/favorites', [FavoriteController::class, 'store'])->name('favorites');

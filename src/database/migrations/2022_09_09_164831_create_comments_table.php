@@ -19,16 +19,16 @@ return new class extends Migration
             $table->timestamps();
 
             // 外部キーの設定
-            $table->bigInteger('post_id')->unsigned();
-            $table->foreign('post_id')
-                ->reference('id')
+            $table->bigInteger('comment_post_id')->unsigned();
+            $table->foreign('comment_post_id')
+                ->references('id')
                 ->on('posts')
                 // ->onUpdate('cascade')
                 ->onDelete('cascade');
 
             // 外部キーの設定
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')
+            $table->bigInteger('comment_user_id')->unsigned();
+            $table->foreign('comment_user_id')
                 ->references('id')
                 ->on('users')
                 // ->onUpdate('cascade')

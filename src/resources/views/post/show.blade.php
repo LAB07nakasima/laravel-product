@@ -37,7 +37,7 @@
                             </p>
                         </div>
                         {{-- <span>{{ $comment->comment }}</span> --}}
-                        @if ($comment->user_id == Auth::id())
+                        @if ($comment->comment_user_id == Auth::id())
                             <form action="{{ route('comment.destroy', ['comment_id' => $comment->id]) }}" method="POST">
                                 @csrf
                                 {{-- <a class="delete-comment" data-remote="true" rel="nofollow" data-method="delete" href="/comment/{{ $comment->id }}">
