@@ -14,8 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('follows_user', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('followed_user_id');
+            $table->unsignedBigInteger('following_user_id');
             $table->timestamps();
+
+            // 外部キーの設定
+            $table->foreign('followed_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('following_user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
